@@ -3,21 +3,31 @@ import {
   NotFoundException,
   InternalServerErrorException,
 } from '@nestjs/common';
+//TYPEORM
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+//ENTITIES
 import { User } from './entities/user.entity';
+import { Profile } from './entities/profile.entity';
+//DTOs
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>, // Inyectamos el repo
+    private readonly userRepository: Repository<User>,
+    @InjectRepository(Profile)
+    private readonly profileRepository: Repository<Profile>, // Inyectamos el repo
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const newUser = this.userRepository.create(createUserDto);
+    const newProfile = this.profileRepository.create();
+    const newUser = this.userRepository.create({
+      ...createUserDto,
+      profile: newProfile, //creamos el profile vacio dentro de user para que se cree el user y el profile al mismo tiempo
+    });
     return await this.userRepository.save(newUser);
   }
 

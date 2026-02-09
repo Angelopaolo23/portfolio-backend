@@ -17,6 +17,7 @@ export enum TechCategory {
 export class Technology {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+  @Column()
   name: string;
   @Column()
   category: TechCategory;

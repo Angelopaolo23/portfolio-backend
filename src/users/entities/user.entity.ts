@@ -15,7 +15,9 @@ export class User {
   email: string;
   @Column()
   password: string;
-  @OneToOne(() => Profile, (profile) => profile.userId)
+  @OneToOne(() => Profile, (profile) => profile.userId, {
+    cascade: true,
+  })
   profile?: Profile;
   @OneToMany(() => Certification, (cert) => cert.userId)
   certs: Certification[];

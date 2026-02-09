@@ -13,15 +13,15 @@ export class Profile {
   @OneToOne(() => User, (user) => user.profile)
   @JoinColumn()
   userId: User;
-  @Column()
+  @Column({ nullable: true })
   fullName: string;
-  @Column()
+  @Column({ nullable: true })
   roleTitle: string;
-  @Column()
+  @Column({ nullable: true })
   bio: string;
-  @Column()
+  @Column({ nullable: true })
   avatarUrl?: string;
-  @Column()
+  @Column({ nullable: true })
   location?: string;
   @Column('jsonb', { nullable: true })
   socialLinks?: {

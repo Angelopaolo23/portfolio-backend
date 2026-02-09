@@ -5,6 +5,8 @@ import {
   Column,
   JoinTable,
   ManyToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -13,26 +15,28 @@ export class Project {
   id: string;
   @Column()
   title: string;
-  @Column()
+  @Column({ unique: true })
   slug: string;
   @Column()
   shortDesc: string;
-  @Column()
+  @Column({ nullable: true })
   archDesc?: string;
-  @Column()
+  @Column({ nullable: true })
   aiDesc?: string;
-  @Column()
+  @Column({ nullable: true })
   deployUrl?: string;
-  @Column()
+  @Column({ nullable: true })
   repoUrl?: string;
   @Column()
   mainImage: string;
-  @Column('text', { array: true, nullable: true })
+  @Column('text', { array: true, nullable: true, default: {} }) //OJO postgre maneja los arrays como {}
   gallery: string[];
-  @Column()
+  @Column({ default: false })
   isFeatured: boolean = false;
-  @Column()
+  @CreateDateColumn()
   createdAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
   @ManyToMany(() => Technology, (technology) => technology.projects)
   @JoinTable()
   technologies: Technology[];
